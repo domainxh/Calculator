@@ -54,7 +54,7 @@ class MediaCell: UICollectionViewCell {
         DispatchQueue.global(qos: .userInteractive).async { [unowned self] in
             let cgImage = try? imgGenerator.copyCGImage(at: CMTimeMake(value: 0, timescale: 1), actualTime: nil)
             let image = UIImage(cgImage: cgImage!)
-            let durationLabel = self.getMediaDuration(url: url as NSURL!)
+            let durationLabel = self.getMediaDuration(url: url as NSURL)
 
             DispatchQueue.main.async {
                 self.cellImage.image = image

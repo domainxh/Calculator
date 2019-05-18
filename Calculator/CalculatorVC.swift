@@ -307,7 +307,6 @@ class CalculatorVC: UIViewController {
             
             equationLabel.text = equationLabel.text.replacingOccurrences(of: equationLabel.text[startPosition ..< endPosition], with: String(tempSolution))
             equationLabel.text = equationLabel.text.replacingOccurrences(of: "e+", with: "e")
-            print(equationLabel)
         }
         
         finalSolution = Float(equationLabel.text[0 ..< lastIndexInEquation()])!
@@ -326,7 +325,6 @@ class CalculatorVC: UIViewController {
             formatter.numberStyle = .decimal
             formatter.maximumFractionDigits = 3
         }
-        
         return formatter.string(from: NSNumber(value: doubleValue))!
     }
     
