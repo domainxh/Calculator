@@ -6,13 +6,31 @@
 //  Copyright © 2017 Xiaoheng Pan. All rights reserved.
 //
 
-import UIKit
 import AVFoundation
-
-
+import UIKit
 
 class CalculatorVC: UIViewController {
     
+    private enum Message: String {
+        case minCharacters = "Minimum 4 characters"
+        case maxCharacters = "Maximum 8 characters"
+        case confirmPin = "Confirm your pin"
+        case pinSetup = "Select a pin and press the (-) button to continue.\n \n Once set up, you will use the (-) to unlock your secret vault"
+        case mismatch = "Mismatch. Reset password"
+    }
+
+    private enum Math: String {
+        case ans = "ANS"
+        case negative = "-"
+        case minus = "−"
+        case s = "S"
+        case equal = "="
+        case plus = "+"
+        case mul = "×"
+        case div = "÷"
+        case exp = "^"
+    }
+
     @IBOutlet weak var equationLabel: UITextView!
     @IBOutlet weak var solutionLabel: UILabel!
     @IBOutlet weak var pinMessageLabel: UILabel!
@@ -30,7 +48,6 @@ class CalculatorVC: UIViewController {
     
     private let defaults = UserDefaults.standard
     
-    private let ans = "ANS"
     private let numbers = [".","0","1","2","3","4","5","6","7","8","9", "S"]
     private let numbersIncludeNegative = ["-",".","0","1","2","3","4","5","6","7","8","9", "S"] // first one is negative
     private let operators = ["=","+","−","×","÷","^"]
@@ -55,7 +72,7 @@ class CalculatorVC: UIViewController {
         super.viewDidAppear(animated)
         
         if !isPasswordSet() {
-            let ac = UIAlertController(title: "Instructions", message: "Select a pin and press the (-) button to continue.\n \n Once set up, you will use the (-) to unlock your secret vault", preferredStyle: .alert)
+            let ac = UIAlertController(title: "Instructions", message: Message.pinSetup.rawValue, preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(ac, animated: true, completion:nil)
         }
@@ -71,21 +88,21 @@ class CalculatorVC: UIViewController {
     @IBAction func numberTapped(_ sender: UIButton) {
         AudioServicesPlaySystemSound(1104)
         
-        guard equationLabel.text.last != "S" else { return }
+        guard lastStringInEquation() != Math.s.rawValue else { return }
         if !isPasswordSet() && sender.currentTitle == "." { return }
 
         if !equationLabel.text.isEmpty && isEqualAtTheEnd() {
             clearLabel()
         }
         
-        equationLabel.text! += sender.currentTitle!
+        equationLabel.text += sender.currentTitle!
     }
 
     @IBAction func DELTapped(_ sender: UIButton) {
         AudioServicesPlaySystemSound(1104)
         guard !equationLabel.text.isEmpty else { return }
 
-        if equationLabel.text.last == "S" {
+        if lastStringInEquation() == Math.s.rawValue {
             equationLabel.text.removeSubrange(equationLabel.text.index(equationLabel.text.endIndex, offsetBy: -3) ..< equationLabel.text.endIndex)
         } else {
             _ = equationLabel.text.popLast()
@@ -116,7 +133,6 @@ class CalculatorVC: UIViewController {
         
         if !isPasswordSet() && !tempPassword.isEmpty {
             if equationLabel.text == tempPassword {
-                
                 defaults.set(tempPassword, forKey: "password")
                 defaults.set(true, forKey: "isPasswordSet")
                 defaults.synchronize()
@@ -126,24 +142,24 @@ class CalculatorVC: UIViewController {
                 pinMessageLabel.isHidden = true
                 performSegue(withIdentifier: "toStorageVC", sender: nil)
             } else {
-                pinMessageLabel.text = "Mismatch. Reset password"
+                pinMessageLabel.text = Message.mismatch.rawValue
                 tempPassword = ""
                 equationLabel.text = ""
                 return
             }
         } else if !isPasswordSet() {
             if equationLabel.text.count < 4 {
-                pinMessageLabel.text = "Minimum 4 characters"
+                pinMessageLabel.text = Message.minCharacters.rawValue
                 equationLabel.text = ""
                 return
             } else if equationLabel.text.count > 8 {
-                pinMessageLabel.text = "Maximum 8 characters"
+                pinMessageLabel.text = Message.maxCharacters.rawValue
                 equationLabel.text = ""
                 return
             } else {
                 tempPassword = equationLabel.text
                 equationLabel.text = ""
-                pinMessageLabel.text = "Confirm your pin"
+                pinMessageLabel.text = Message.confirmPin.rawValue
                 return
             }
         }
@@ -151,43 +167,42 @@ class CalculatorVC: UIViewController {
         if !equationLabel.text.isEmpty {
             if isEqualAtTheEnd() {
                 clearLabel()
-                equationLabel.text! += "-"
-            } else if !isInputCharacterAnOperator(inputCharacter: lastCharacterInEquation(), listOfOperations: numbersIncludeNegative) {
-                equationLabel.text! += "-"
+                equationLabel.text += Math.negative.rawValue
+            } else if !isInputAnOperator(input: lastStringInEquation(), listOfOperations: numbersIncludeNegative) {
+                equationLabel.text += Math.negative.rawValue
             }
         } else {
-            equationLabel.text! += "-"
+            equationLabel.text += Math.negative.rawValue
         }
     }
     
     @IBAction func ANSTapped(_ sender: UIButton) {
         AudioServicesPlaySystemSound(1104)
         
-//        if !isPasswordSet() { return }
         guard isPasswordSet() else { return }
         if !equationLabel.text.isEmpty {
             if isEqualAtTheEnd() {
                 clearLabel()
-                equationLabel.text! += ans
-            } else if !isInputCharacterAnOperator(inputCharacter: lastCharacterInEquation(), listOfOperations: numbers) {
-                equationLabel.text! += ans
+                equationLabel.text += Math.ans.rawValue
+            } else if !isInputAnOperator(input: lastStringInEquation(), listOfOperations: numbers) {
+                equationLabel.text += Math.ans.rawValue
             }
         } else {
-            equationLabel.text! += ans
+            equationLabel.text += Math.ans.rawValue
         }
     }
     
     @IBAction func performOperator(_ sender: UIButton) {
         AudioServicesPlaySystemSound(1104)
         
-        if !isPasswordSet() { return }
-        if equationLabel.text != ""{
-            if !isInputCharacterAnOperator(inputCharacter: lastCharacterInEquation(), listOfOperations: operatorsIncludeNegative) {
-                equationLabel.text! += sender.currentTitle!
+        guard isPasswordSet() else { return }
+        if equationLabel.text != "" {
+            if !isInputAnOperator(input: lastStringInEquation(), listOfOperations: operatorsIncludeNegative) {
+                equationLabel.text += sender.currentTitle!
             }
             if isEqualAtTheEnd() {
                 clearLabel()
-                equationLabel.text! += (ans + sender.currentTitle!)
+                equationLabel.text += (Math.ans.rawValue + sender.currentTitle!)
             }
         }
     }
@@ -195,12 +210,12 @@ class CalculatorVC: UIViewController {
     @IBAction func equalTapped(_ sender: UIButton) {
         AudioServicesPlaySystemSound(1104)
         
-        if !isPasswordSet() { return }
+        guard isPasswordSet() else { return }
         if !equationLabel.text.isEmpty {
-            if isInputAnOperator(input: lastCharacterInEquation(), listOfOperations: operatorsIncludeNegative) {
+            if isInputAnOperator(input: lastStringInEquation(), listOfOperations: operatorsIncludeNegative) {
                 return
             } else {
-                equationLabel.text! += "="
+                equationLabel.text += Math.equal.rawValue
                 solutionLabel.text = formatOutput(convert: String(calculate()))
             }
         }
@@ -212,15 +227,6 @@ class CalculatorVC: UIViewController {
         } else {
             equationLabel.text = ""
         }
-    }
-    
-    private func isInputCharacterAnOperator(inputCharacter: String, listOfOperations: [String]) -> Bool {
-        for i in listOfOperations {
-            if inputCharacter == i {
-                return true
-            }
-        }
-        return false
     }
     
     private func isInputAnOperator(input: String, listOfOperations: [String]) -> Bool {
@@ -235,8 +241,7 @@ class CalculatorVC: UIViewController {
     }
     
     private func isEqualAtTheEnd() -> Bool {
-        if lastCharacterInEquation() == "=" { return true }
-        return false
+        return lastStringInEquation() == Math.equal.rawValue
     }
     
     private func calculate() -> Float {
@@ -249,7 +254,7 @@ class CalculatorVC: UIViewController {
         var listToBeNotIn = [String]()
         var listToBeIn = [String]()
         
-        equationLabel.text = equationLabel.text.replacingOccurrences(of: ans, with: String(finalSolution))
+        equationLabel.text = equationLabel.text.replacingOccurrences(of: Math.ans.rawValue, with: String(finalSolution))
         equationLabel.text = equationLabel.text.replacingOccurrences(of: "e+", with: String("e"))
         equationLabel.text = equationLabel.text.replacingOccurrences(of: "--", with: String(""))
         
@@ -276,11 +281,11 @@ class CalculatorVC: UIViewController {
             //Main 2 loops that determine inputs
             for i in 0 ..< equationLabel.text.count {
                 
-                if isInputCharacterAnOperator(inputCharacter: String(equationLabel.text[i]), listOfOperations: listToBeNotIn) {
+                if isInputAnOperator(input: String(equationLabel.text[i]), listOfOperations: listToBeNotIn) {
                     startPosition = i + 1
                 }
                 
-                if isInputCharacterAnOperator(inputCharacter: String(equationLabel.text[i]), listOfOperations: listToBeIn) {
+                if isInputAnOperator(input: String(equationLabel.text[i]), listOfOperations: listToBeIn) {
                     input1 = Float(equationLabel.text[startPosition ..< i])
                     operation = String(equationLabel.text[i])
                     operatorPosition = i + 1
@@ -289,7 +294,7 @@ class CalculatorVC: UIViewController {
             }
             
             for j in operatorPosition ..< equationLabel.text.count {
-                if isInputCharacterAnOperator(inputCharacter: String(equationLabel.text[j]), listOfOperations: operators) {
+                if isInputAnOperator(input: String(equationLabel.text[j]), listOfOperations: operators) {
                     input2 = Float(equationLabel.text[operatorPosition..<j])
                     endPosition = j
                     break
@@ -297,12 +302,12 @@ class CalculatorVC: UIViewController {
             }
             
             switch operation {
-            case "+": tempSolution = input1 + input2
-            case "−": tempSolution = input1 - input2
-            case "×": tempSolution = input1 * input2
-            case "÷": tempSolution = input1 / input2
-            case "^": tempSolution = pow(input1,input2)
-            default: tempSolution = 0
+                case Math.plus.rawValue: tempSolution = input1 + input2
+                case Math.minus.rawValue: tempSolution = input1 - input2
+                case Math.mul.rawValue: tempSolution = input1 * input2
+                case Math.div.rawValue: tempSolution = input1 / input2
+                case Math.exp.rawValue: tempSolution = pow(input1,input2)
+                default: tempSolution = 0
             }
             
             equationLabel.text = equationLabel.text.replacingOccurrences(of: equationLabel.text[startPosition ..< endPosition], with: String(tempSolution))
@@ -311,7 +316,7 @@ class CalculatorVC: UIViewController {
         }
         
         finalSolution = Float(equationLabel.text[0 ..< lastIndexInEquation()])!
-        equationLabel.text = equationLabel.text.replacingOccurrences(of: equationLabel.text[0 ..< lastIndexInEquation()], with: ans)
+        equationLabel.text = equationLabel.text.replacingOccurrences(of: equationLabel.text[0 ..< lastIndexInEquation()], with: Math.ans.rawValue)
         return finalSolution
     }
     
@@ -338,7 +343,8 @@ class CalculatorVC: UIViewController {
         return defaults.bool(forKey: "isPasswordSet")
     }
     
-    private func lastCharacterInEquation() -> String {
+    private func lastStringInEquation() -> String {
+        guard !equationLabel.text.isEmpty else { return "" }
         return String(equationLabel.text.last!)
     }
     
