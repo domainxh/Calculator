@@ -230,20 +230,16 @@ class CalculatorVC: UIViewController {
     }
     
     private func isInputAnOperator(input: String, listOfOperations: [String]) -> Bool {
-        for i in input.characters {
-            for j in listOfOperations {
-                if String(i) == j {
+        for character in input {
+            for operation in listOfOperations {
+                if String(character) == operation {
                     return true
                 }
             }
         }
         return false
     }
-    
-    private func isEqualAtTheEnd() -> Bool {
-        return lastStringInEquation() == Math.equal.rawValue
-    }
-    
+
     private func calculate() -> Float {
         var input1: Float!
         var input2: Float!
@@ -280,21 +276,20 @@ class CalculatorVC: UIViewController {
             
             //Main 2 loops that determine inputs
             for i in 0 ..< equationLabel.text.count {
-                
-                if isInputAnOperator(input: String(equationLabel.text[i]), listOfOperations: listToBeNotIn) {
+                if isInputAnOperator(input: equationLabel.text[i], listOfOperations: listToBeNotIn) {
                     startPosition = i + 1
                 }
-                
+
                 if isInputAnOperator(input: String(equationLabel.text[i]), listOfOperations: listToBeIn) {
                     input1 = Float(equationLabel.text[startPosition ..< i])
-                    operation = String(equationLabel.text[i])
+                    operation = equationLabel.text[i]
                     operatorPosition = i + 1
                     break
                 }
             }
             
             for j in operatorPosition ..< equationLabel.text.count {
-                if isInputAnOperator(input: String(equationLabel.text[j]), listOfOperations: operators) {
+                if isInputAnOperator(input: equationLabel.text[j], listOfOperations: operators) {
                     input2 = Float(equationLabel.text[operatorPosition..<j])
                     endPosition = j
                     break
@@ -311,12 +306,12 @@ class CalculatorVC: UIViewController {
             }
             
             equationLabel.text = equationLabel.text.replacingOccurrences(of: equationLabel.text[startPosition ..< endPosition], with: String(tempSolution))
-            equationLabel.text = equationLabel.text.replacingOccurrences(of: "e+", with: String("e"))
+            equationLabel.text = equationLabel.text.replacingOccurrences(of: "e+", with: "e")
             print(equationLabel)
         }
         
         finalSolution = Float(equationLabel.text[0 ..< lastIndexInEquation()])!
-        equationLabel.text = equationLabel.text.replacingOccurrences(of: equationLabel.text[0 ..< lastIndexInEquation()], with: Math.ans.rawValue)
+        equationLabel.text = equationLabel.text.replacingOccurrences(of: String(finalSolution), with: Math.ans.rawValue)
         return finalSolution
     }
     
@@ -342,7 +337,11 @@ class CalculatorVC: UIViewController {
     private func isPasswordSet() -> Bool {
         return defaults.bool(forKey: "isPasswordSet")
     }
-    
+
+    private func isEqualAtTheEnd() -> Bool {
+        return lastStringInEquation() == Math.equal.rawValue
+    }
+
     private func lastStringInEquation() -> String {
         guard !equationLabel.text.isEmpty else { return "" }
         return String(equationLabel.text.last!)
