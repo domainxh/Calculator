@@ -10,23 +10,33 @@ import UIKit
 
 class ButtonCell: UICollectionViewCell {
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    func configureCell(_ buttonText: String, _ isPasswordSet: Bool) {
+        buttonLabel.text = buttonText
+        
+        switch buttonText {
+        case "÷", "×", "−", "+", "=":
+            buttonLabel.backgroundColor = .black
+            buttonLabel.textColor = .white
+        default:
+            buttonLabel.backgroundColor = .white
+        }
+
+        if isPasswordSet && buttonText == "(-)" {
+            layer.borderWidth = 3
+            layer.borderColor = UIColor.orange.cgColor
+        }
+        
         setupView()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    let buttonLabel: UILabel = {
+    private let buttonLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "AvenirNext-Regular", size: 35)
+        label.font = UIFont(name: "AvenirNext-Regular", size: 25)
         label.textAlignment = .center
         return label
     }()
     
-    func setupView() {
+    private func setupView() {
         addSubview(buttonLabel)
         addConstraintsWithFormat("H:|[v0]|", views: buttonLabel)
         addConstraintsWithFormat("V:|[v0]|", views: buttonLabel)
