@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		214EB169229063CD00C589B2 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214EB168229063CD00C589B2 /* ButtonCell.swift */; };
+		214EB16F22906CE700C589B2 /* SolutionTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214EB16E22906CE700C589B2 /* SolutionTextView.swift */; };
 		21E4F931228F92130020C941 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E4F930228F92130020C941 /* UIView+.swift */; };
 		21E4F933228F94880020C941 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E4F932228F94880020C941 /* String+.swift */; };
 		F72065DF1E50A34600376F13 /* MediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72065DE1E50A34600376F13 /* MediaCell.swift */; };
@@ -31,6 +33,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		214EB168229063CD00C589B2 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
+		214EB16E22906CE700C589B2 /* SolutionTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolutionTextView.swift; sourceTree = "<group>"; };
 		21E4F930228F92130020C941 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		21E4F932228F94880020C941 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		F72065DE1E50A34600376F13 /* MediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaCell.swift; sourceTree = "<group>"; };
@@ -71,6 +75,8 @@
 			isa = PBXGroup;
 			children = (
 				F7D856E11E4B89B400D6DE35 /* CalculatorVC.swift */,
+				214EB168229063CD00C589B2 /* ButtonCell.swift */,
+				214EB16E22906CE700C589B2 /* SolutionTextView.swift */,
 			);
 			name = Calculator;
 			sourceTree = "<group>";
@@ -242,6 +248,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				214EB169229063CD00C589B2 /* ButtonCell.swift in Sources */,
 				F7C1896D1E55C3EF00F74743 /* VideoVC.swift in Sources */,
 				F72387EC1E5A7ED300E231C9 /* ContactCell.swift in Sources */,
 				F7D857041E4D653B00D6DE35 /* StorageVC.swift in Sources */,
@@ -251,6 +258,7 @@
 				F72387EE1E5A7FBE00E231C9 /* DetailedContactVC.swift in Sources */,
 				F721CDF21E5917C300DA0D3C /* SettingCell.swift in Sources */,
 				F7D856E21E4B89B400D6DE35 /* CalculatorVC.swift in Sources */,
+				214EB16F22906CE700C589B2 /* SolutionTextView.swift in Sources */,
 				F74361DF1E53C8BB007D41D1 /* PhotoVC.swift in Sources */,
 				F7D856E01E4B89B400D6DE35 /* AppDelegate.swift in Sources */,
 				F758F2411E5792820059030C /* StorageData.swift in Sources */,
