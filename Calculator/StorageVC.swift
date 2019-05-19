@@ -9,7 +9,7 @@
 import UIKit
 import AVFoundation
 
-class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
+class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     
     @IBOutlet weak var mainMenuTableView: UITableView!
     @IBOutlet weak var addMenuTableView: UITableView!
@@ -35,7 +35,13 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     let storageData = StorageData()
     
     private var _titleName: String?
-    var titleName: String? { set { _titleName = newValue } get { return _titleName } }
+    var titleName: String? {
+        get {
+            return _titleName
+        } set {
+            _titleName = newValue
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

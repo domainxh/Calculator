@@ -22,7 +22,7 @@ let cellWidth = collectionViewSize.width / cellPerRow
 let cellHeight = collectionViewSize.height / cellPerColumn
 let cellSize = CGSize(width: cellWidth, height: cellHeight)
 
-class CalculatorVC: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+class CalculatorVC: UIViewController {
     
     private enum Message: String {
         case minCharacters = "Minimum 4 characters"
@@ -256,9 +256,15 @@ class CalculatorVC: UIViewController, UICollectionViewDelegate, UICollectionView
         equationLabel.text = ""
     }
     
+    private func presentStorageVC() {
+        let storageVC: UIViewController = StorageVC()
+        let navController = UINavigationController(rootViewController: storageVC)
+        present(navController, animated: true, completion: nil)
+    }
+    
     private func negativeTapped(_ button: String) {
         if let password = defaults.string(forKey: "password"), equationLabel.text == password {
-            performSegue(withIdentifier: "toStorageVC", sender: "Photo")
+            presentStorageVC()
         }
 
         if !isPasswordSet() && !tempPassword.isEmpty {
@@ -270,7 +276,7 @@ class CalculatorVC: UIViewController, UICollectionViewDelegate, UICollectionView
                 tempPassword = ""
                 solutionLabel.isHidden = false
                 messageLabel.isHidden = true
-                performSegue(withIdentifier: "toStorageVC", sender: nil)
+                presentStorageVC()
             } else {
                 messageLabel.text = Message.mismatch.rawValue
                 tempPassword = ""
@@ -319,7 +325,7 @@ class CalculatorVC: UIViewController, UICollectionViewDelegate, UICollectionView
             equationLabel.text += Math.ans.rawValue
         }
     }
-    
+
     private func equalTapped(_ button: String) {
         guard isPasswordSet() else { return }
         if !equationLabel.text.isEmpty {
@@ -344,13 +350,13 @@ class CalculatorVC: UIViewController, UICollectionViewDelegate, UICollectionView
             }
         }
     }
-    
+
     private let displayView: UIView = {
         let view = UIView()
         view.backgroundColor = .green
         return view
     }()
-    
+
     private let equationLabel: UITextView = {
         let view = UITextView()
         view.text = ""
@@ -359,7 +365,7 @@ class CalculatorVC: UIViewController, UICollectionViewDelegate, UICollectionView
         view.font = UIFont(name: "AvenirNext-Regular", size: 25)
         return view
     }()
-    
+
     private let solutionLabel: UILabel = {
         let label = UILabel()
         label.text = "0"
@@ -368,7 +374,7 @@ class CalculatorVC: UIViewController, UICollectionViewDelegate, UICollectionView
         label.font = UIFont(name: "AvenirNext-Regular", size: 50)
         return label
     }()
-    
+
     private let messageLabel: UILabel = {
         let label = UILabel()
         label.text = "Create a PIN for this device"
@@ -378,7 +384,7 @@ class CalculatorVC: UIViewController, UICollectionViewDelegate, UICollectionView
         label.isHidden = true
         return label
     }()
-    
+
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 0
@@ -393,7 +399,7 @@ class CalculatorVC: UIViewController, UICollectionViewDelegate, UICollectionView
         cv.register(ButtonCell.self, forCellWithReuseIdentifier: ButtonCell.reuseIdentifier)
         return cv
     }()
-    
+
     private func addLayoutConstraints() {
         view.addSubviews(displayView, collectionView)
         view.addConstraintsWithFormat("H:|[v0]|", views: displayView)
@@ -407,22 +413,26 @@ class CalculatorVC: UIViewController, UICollectionViewDelegate, UICollectionView
         view.addConstraintsWithFormat("V:|[v0(\(equationLabelHeight))][v1]|", views: equationLabel, solutionLabel)
         view.addConstraintsWithFormat("V:|[v0(\(equationLabelHeight))][v1]|", views: equationLabel, messageLabel)
     }
-    
+
+}
+
+extension CalculatorVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCell.reuseIdentifier, for: indexPath) as? ButtonCell else {
             return UICollectionViewCell()
         }
-        
+
         cell.configureCell(buttons[indexPath.item], isPasswordSet())
-        
+
         if buttons[indexPath.item] == "DEL" {
             let gesture = UILongPressGestureRecognizer(target: self, action: #selector(delHolded))
             cell.addGestureRecognizer(gesture)
         }
-        
+
         return cell
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let buttonText = buttons[indexPath.item]
         AudioServicesPlaySystemSound(1104)
@@ -443,11 +453,11 @@ class CalculatorVC: UIViewController, UICollectionViewDelegate, UICollectionView
             return
         }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 20
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return cellSize
     }
