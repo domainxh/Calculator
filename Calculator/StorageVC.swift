@@ -48,17 +48,17 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         
         title = titleName
         
-        addMenuHeight.constant = cellHeight * CGFloat(addMenuItems.count)
-        addMenuHeightConstraint.constant = cellHeight * CGFloat(addMenuItems.count * -1)
+//        addMenuHeight.constant = cellHeight * CGFloat(addMenuItems.count)
+//        addMenuHeightConstraint.constant = cellHeight * CGFloat(addMenuItems.count * -1)
         
-        mainMenuTableView.delegate = self
-        mainMenuTableView.dataSource = self
-        
-        addMenuTableView.delegate = self
-        addMenuTableView.dataSource = self
-        
-        collectionView.delegate = self
-        collectionView.dataSource = self
+//        mainMenuTableView.delegate = self
+//        mainMenuTableView.dataSource = self
+//
+//        addMenuTableView.delegate = self
+//        addMenuTableView.dataSource = self
+//
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
 
         
         UINavigationBar.appearance().barTintColor = .black

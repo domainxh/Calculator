@@ -78,6 +78,14 @@
 			name = Calculator;
 			sourceTree = "<group>";
 		};
+		214EB1732291952300C589B2 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				F7D857031E4D653B00D6DE35 /* StorageVC.swift */,
+			);
+			name = Storage;
+			sourceTree = "<group>";
+		};
 		21E4F92F228F91F60020C941 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -116,6 +124,7 @@
 		F7D856DE1E4B89B400D6DE35 /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
+				214EB1732291952300C589B2 /* Storage */,
 				214EB16722904E8700C589B2 /* Calculator */,
 				21E4F92F228F91F60020C941 /* Extensions */,
 				F721CDF31E59344600DA0D3C /* Reference */,
@@ -152,7 +161,6 @@
 		F7D856FB1E4CC03800D6DE35 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F7D857031E4D653B00D6DE35 /* StorageVC.swift */,
 				F74361E01E53FF90007D41D1 /* ManagePageVC.swift */,
 				F74361DE1E53C8BB007D41D1 /* PhotoVC.swift */,
 				F7C1896C1E55C3EF00F74743 /* VideoVC.swift */,
