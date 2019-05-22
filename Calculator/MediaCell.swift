@@ -64,7 +64,7 @@ class MediaCell: UICollectionViewCell {
 
     }
     
-    func getMediaDuration(url: NSURL!) -> String{
+    private func getMediaDuration(url: NSURL!) -> String{
         let asset : AVURLAsset = AVURLAsset(url: url as URL) as AVURLAsset
         let duration : CMTime = asset.duration
         
@@ -77,3 +77,8 @@ class MediaCell: UICollectionViewCell {
     
 }
 
+extension MediaCell {
+    static var reuseIdentifier: String {
+        return String(describing: MediaCell.self)
+    }
+}

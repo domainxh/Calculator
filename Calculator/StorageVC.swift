@@ -9,22 +9,29 @@
 import UIKit
 import AVFoundation
 
-class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+enum MediaType: String {
+    case photo = "Photo"
+    case video = "Video"
+    case camera = "Camera"
+    case addPhoto = "Add Photo"
+}
+
+class StorageVC: UIViewController {
     
     @IBOutlet weak var mainMenuTableView: UITableView!
     @IBOutlet weak var addMenuTableView: UITableView!
-    @IBOutlet weak var collectionView: UICollectionView!
+//    @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var mainMenuView: UIView!
     @IBOutlet weak var addMenuView: UIView!
-    @IBOutlet weak var blackView: UIView!
+//    @IBOutlet weak var blackView: UIView!
     @IBOutlet weak var addMenuHeight: NSLayoutConstraint!
     @IBOutlet weak var addMenuHeightConstraint: NSLayoutConstraint!
     
     
     var isMainMenuShowing = false
     var isAddMenuShowing = false
-    let addMenuItems = ["Camera", "Add photo"]
-    let mainMenuItems = ["Photo", "Video"]
+    let addMenuItems = [MediaType.camera, MediaType.addPhoto]
+    let mainMenuItems = [MediaType.photo, MediaType.video]
     
     let cellHeight: CGFloat = 50
     
@@ -46,6 +53,12 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        navigationController?.navigationBar.barStyle = .black
+        
+        setNeedsStatusBarAppearanceUpdate()
+        addNavBarIcons()
+        addLayoutConstraints()
+        
         title = titleName
         
 //        addMenuHeight.constant = cellHeight * CGFloat(addMenuItems.count)
@@ -60,43 +73,33 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
 //        collectionView.delegate = self
 //        collectionView.dataSource = self
 
-        
-        UINavigationBar.appearance().barTintColor = .black
-        UINavigationBar.appearance().backgroundColor = .gray
-//        UINavigationBar.appearance().barTintColor = UIColor(red: 24, green: 24, blue: 24) // Hexcolor 242424
-//        UINavigationBar.appearance().backgroundColor = UIColor(red: 24, green: 24, blue: 24)
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
-        navigationItem.leftBarButtonItem?.tintColor = UIColor.white
-        navigationItem.rightBarButtonItem?.tintColor = UIColor.white
-        
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeGesture))
         swipeRight.direction = UISwipeGestureRecognizer.Direction.right
-        self.view.addGestureRecognizer(swipeRight)
+        view.addGestureRecognizer(swipeRight)
         
         let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeGesture))
         swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
-        self.view.addGestureRecognizer(swipeLeft)
+        view.addGestureRecognizer(swipeLeft)
         
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeGesture))
         swipeUp.direction = UISwipeGestureRecognizer.Direction.up
-        self.view.addGestureRecognizer(swipeUp)
+        view.addGestureRecognizer(swipeUp)
     }
     
     @objc func handleSwipeGesture(gesture: UIGestureRecognizer) {
-        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
-            switch swipeGesture.direction {
-            case UISwipeGestureRecognizer.Direction.right:
-                showMainMenu()
-                showBlackView()
-            case UISwipeGestureRecognizer.Direction.left:
-                hideMainMenu()
-                hideBlackView()
-            case UISwipeGestureRecognizer.Direction.up:
-                hideAddMenu()
-                hideBlackView()
-            default:
-                break
-            }
+        guard let swipeGesture = gesture as? UISwipeGestureRecognizer else { return }
+        switch swipeGesture.direction {
+        case UISwipeGestureRecognizer.Direction.right:
+            showMainMenu()
+            showBlackView()
+        case UISwipeGestureRecognizer.Direction.left:
+            hideMainMenu()
+            hideBlackView()
+        case UISwipeGestureRecognizer.Direction.up:
+            hideAddMenu()
+            hideBlackView()
+        default:
+            break
         }
     }
     
@@ -126,7 +129,7 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         }
     }
     
-    func showBlackView() {
+    private func showBlackView() {
         blackView.isHidden = false
         blackView.backgroundColor = UIColor(white: 0, alpha: 0.5)
         blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideBlackView)))
@@ -146,7 +149,7 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         })
     }
     
-    func showAddMenu() {
+    private func showAddMenu() {
         if !isAddMenuShowing {
             if let window = UIApplication.shared.keyWindow {
                 let x = collectionView.frame.width - addMenuView.frame.width
@@ -161,7 +164,7 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         }
     }
     
-    func hideAddMenu() {
+    private func hideAddMenu() {
         if isAddMenuShowing {
             if let window = UIApplication.shared.keyWindow {
                 let x = collectionView.frame.width - addMenuView.frame.width
@@ -174,7 +177,7 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         }
     }
     
-    func showMainMenu() {
+    private func showMainMenu() {
         if !isMainMenuShowing {
             if let window = UIApplication.shared.keyWindow {
                 let y = window.frame.height - collectionView.frame.height
@@ -188,7 +191,7 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         }
     }
     
-    func hideMainMenu() {
+    private func hideMainMenu() {
         if isMainMenuShowing {
             if let window = UIApplication.shared.keyWindow {
                 let y = window.frame.height - collectionView.frame.height
@@ -201,14 +204,56 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         }
     }
     
+    // Load Views
+    private lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.backgroundColor = .clear
+        cv.layer.borderColor = UIColor.purple.cgColor
+        cv.layer.borderWidth = 5
+        cv.dataSource = self
+        cv.delegate = self
+        cv.register(MediaCell.self, forCellWithReuseIdentifier: MediaCell.reuseIdentifier)
+        return cv
+    }()
+    
+    private lazy var blackView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .red
+        return view
+    }()
+    
+    private func addLayoutConstraints() {
+        view.addSubviews(collectionView, blackView)
+        view.addConstraintsWithFormat("H:|[v0]|", views: collectionView)
+        view.addConstraintsWithFormat("V:|[v0]|", views: collectionView)
+        view.addConstraintsWithFormat("H:|[v0]|", views: blackView)
+        view.addConstraintsWithFormat("V:|[v0]|", views: blackView)
+    }
+    
+    private func addNavBarIcons() {
+        UINavigationBar.appearance().barTintColor = .black
+        UINavigationBar.appearance().backgroundColor = .gray
+        //        UINavigationBar.appearance().barTintColor = UIColor(red: 24, green: 24, blue: 24) // Hexcolor 242424
+        //        UINavigationBar.appearance().backgroundColor = UIColor(red: 24, green: 24, blue: 24)
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        navigationItem.leftBarButtonItem?.tintColor = UIColor.white
+        navigationItem.rightBarButtonItem?.tintColor = UIColor.white
+    }
+}
+
+extension StorageVC: UITableViewDelegate, UITableViewDataSource {
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == mainMenuTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: "mainMenuCell") as! MenuCell
-            cell.configCell(menuItems: mainMenuItems[indexPath.row])
+            cell.configCell(mainMenuItems[indexPath.row])
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "addMenuCell") as! MenuCell
-            cell.configCell(menuItems: addMenuItems[indexPath.row])
+            cell.configCell(addMenuItems[indexPath.row])
             return cell
         }
     }
@@ -231,10 +276,10 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
         if cellText == title {
             hideMainMenu()
             return
-        } else if cellText == "Video" {
-            title = "Video"
-        } else if cellText == "Photo" {
-            title = "Photo"
+        } else if cellText == MediaType.video.rawValue {
+            title = MediaType.video.rawValue
+        } else if cellText == MediaType.photo.rawValue {
+            title = MediaType.photo.rawValue
         } else if cellText == "Contacts" {
             performSegue(withIdentifier: "contactVC", sender: nil)
         }
@@ -243,11 +288,14 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
             self.collectionView.reloadData()
         })
     }
-
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return cellHeight
     }
-    
+}
+
+extension StorageVC: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if let vc = storyboard?.instantiateViewController(withIdentifier: "managePageVC") as? ManagePageVC {
             vc.mediaType = title
@@ -257,17 +305,18 @@ class StorageVC: UIViewController, UITableViewDelegate, UITableViewDataSource, U
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        if title == "Photo" {
+        switch title {
+        case MediaType.photo.rawValue:
             return storageData.photos.count
-        } else if title == "Video" {
+        case MediaType.video.rawValue:
             return storageData.videos.count
+        default:
+            return 0
         }
-        return 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "mediaCell", for: indexPath) as! MediaCell
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MediaCell.reuseIdentifier, for: indexPath) as? MediaCell else { return UICollectionViewCell() }
         
         if title == "Photo" {
             cell.configPhotoCell(url: self.storageData.photos[indexPath.row].path, cellSize: collectionView.layoutAttributesForItem(at: indexPath)?.size)

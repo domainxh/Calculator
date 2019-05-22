@@ -82,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				F7D857031E4D653B00D6DE35 /* StorageVC.swift */,
+				F72065DE1E50A34600376F13 /* MediaCell.swift */,
 			);
 			name = Storage;
 			sourceTree = "<group>";
@@ -152,7 +153,6 @@
 			isa = PBXGroup;
 			children = (
 				F758F23E1E5786060059030C /* MenuCell.swift */,
-				F72065DE1E50A34600376F13 /* MediaCell.swift */,
 				F72387EB1E5A7ED300E231C9 /* ContactCell.swift */,
 			);
 			name = View;

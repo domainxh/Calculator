@@ -71,6 +71,7 @@ class CalculatorVC: UIViewController {
         super.viewDidLoad()
 
         view.backgroundColor = .white
+        setNeedsStatusBarAppearanceUpdate()
         addLayoutConstraints()
 
         if !isPasswordSet() {
@@ -87,6 +88,10 @@ class CalculatorVC: UIViewController {
             ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(ac, animated: true, completion:nil)
         }
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .default
     }
 
     // Automatically scroll the textView
