@@ -47,10 +47,12 @@ class StorageVC: UIViewController {
     let mainMenuItems = [MediaType.photo, MediaType.video]
     
     let cellHeight: CGFloat = 50
-    
     let mediaPerRow: CGFloat = 2
     let cellGap = CGFloat(2)
     let sectionInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    let screenSize = UIScreen.main.bounds
+    var navBarHeight = 0
+    let statusBarHeight = Int(UIApplication.shared.statusBarFrame.height)
     
     let storageData = StorageData()
 
@@ -58,6 +60,7 @@ class StorageVC: UIViewController {
         super.viewDidLoad()
         
         navigationController?.navigationBar.barStyle = .black
+        navBarHeight = Int(navigationController?.navigationBar.frame.height ?? 0)
         setNeedsStatusBarAppearanceUpdate()
         addNavBarIcons()
         addLayoutConstraints()
@@ -226,13 +229,10 @@ class StorageVC: UIViewController {
         return view
     }()
     
-    private lazy var menu: UIBarButtonItem = {
-        let button = UIBarButtonItem()
-        let image = UIImage(named: "menubutton")
-        button.setBackgroundImage(image, for: [], barMetrics: .default)
-        button.target = self
-        button.action = #selector(menuButtonPressed)
-        return button
+    private lazy var mainMenu: UIView = {
+        let view = UIView()
+        view.backgroundColor = .green
+        return view
     }()
     
     @objc private func menuButtonPressed() {
@@ -244,11 +244,15 @@ class StorageVC: UIViewController {
     }
 
     private func addLayoutConstraints() {
-        view.addSubviews(collectionView, blackView)
+        let barHeight = navBarHeight + statusBarHeight
+        view.addSubviews(collectionView, blackView, mainMenu)
         view.addConstraintsWithFormat("H:|[v0]|", views: collectionView)
-        view.addConstraintsWithFormat("V:|[v0]|", views: collectionView)
+        view.addConstraintsWithFormat("V:|-\(barHeight)-[v0]|", views: collectionView)
         view.addConstraintsWithFormat("H:|[v0]|", views: blackView)
-        view.addConstraintsWithFormat("V:|[v0]|", views: blackView)
+        view.addConstraintsWithFormat("V:|-\(barHeight)-[v0]|", views: blackView)
+//        view.addConstraintsWithFormat("H:|[v0(\(screenWidth * 0.4))]", views: mainMenu)
+        view.addConstraintsWithFormat("H:[v0(\(screenSize.width * 0.4))]-\(screenSize.width * 0.9)-|", views: mainMenu)
+        view.addConstraintsWithFormat("V:|-\(barHeight)-[v0]|", views: mainMenu)
     }
 
     private func addNavBarIcons() {

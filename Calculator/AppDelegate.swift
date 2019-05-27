@@ -17,7 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
-        window?.rootViewController = CalculatorVC()
+//        window?.rootViewController = CalculatorVC()
+        let storageVC = StorageVC(title: MediaType.photo.rawValue)
+        let navController = UINavigationController(rootViewController: storageVC)
+        window?.rootViewController = navController
         return true
     }
     
