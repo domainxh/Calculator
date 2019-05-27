@@ -226,6 +226,23 @@ class StorageVC: UIViewController {
         return view
     }()
     
+    private lazy var menu: UIBarButtonItem = {
+        let button = UIBarButtonItem()
+        let image = UIImage(named: "menubutton")
+        button.setBackgroundImage(image, for: [], barMetrics: .default)
+        button.target = self
+        button.action = #selector(menuButtonPressed)
+        return button
+    }()
+    
+    @objc private func menuButtonPressed() {
+        print("menu button pressed")
+    }
+
+    @objc private func addButtonPressed() {
+        print("add button pressed")
+    }
+
     private func addLayoutConstraints() {
         view.addSubviews(collectionView, blackView)
         view.addConstraintsWithFormat("H:|[v0]|", views: collectionView)
@@ -233,13 +250,16 @@ class StorageVC: UIViewController {
         view.addConstraintsWithFormat("H:|[v0]|", views: blackView)
         view.addConstraintsWithFormat("V:|[v0]|", views: blackView)
     }
-    
+
     private func addNavBarIcons() {
         UINavigationBar.appearance().barTintColor = .black
         UINavigationBar.appearance().backgroundColor = .gray
-        //        UINavigationBar.appearance().barTintColor = UIColor(red: 24, green: 24, blue: 24) // Hexcolor 242424
-        //        UINavigationBar.appearance().backgroundColor = UIColor(red: 24, green: 24, blue: 24)
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor : UIColor.white]
+        let menuImage = UIImage(named: "menubutton")
+        let menuButton = UIBarButtonItem(image: menuImage, style: .plain, target: self, action: #selector(menuButtonPressed))
+        let addButton = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(addButtonPressed))
+        navigationItem.leftBarButtonItem = menuButton
+        navigationItem.rightBarButtonItem = addButton
         navigationItem.leftBarButtonItem?.tintColor = UIColor.white
         navigationItem.rightBarButtonItem?.tintColor = UIColor.white
     }
