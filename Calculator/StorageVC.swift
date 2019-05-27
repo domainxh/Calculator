@@ -18,6 +18,19 @@ enum MediaType: String {
 
 class StorageVC: UIViewController {
     
+    convenience init() {
+        self.init(title: "")
+    }
+    
+    init(title: String) {
+        super.init(nibName: nil, bundle: nil)
+        self.title = title
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     @IBOutlet weak var mainMenuTableView: UITableView!
     @IBOutlet weak var addMenuTableView: UITableView!
 //    @IBOutlet weak var collectionView: UICollectionView!
@@ -37,29 +50,17 @@ class StorageVC: UIViewController {
     
     let mediaPerRow: CGFloat = 2
     let cellGap = CGFloat(2)
-    let sectionInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: 0.0, right: 0.0)
+    let sectionInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     
     let storageData = StorageData()
-    
-    private var _titleName: String?
-    var titleName: String? {
-        get {
-            return _titleName
-        } set {
-            _titleName = newValue
-        }
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
         navigationController?.navigationBar.barStyle = .black
-        
         setNeedsStatusBarAppearanceUpdate()
         addNavBarIcons()
         addLayoutConstraints()
-        
-        title = titleName
         
 //        addMenuHeight.constant = cellHeight * CGFloat(addMenuItems.count)
 //        addMenuHeightConstraint.constant = cellHeight * CGFloat(addMenuItems.count * -1)

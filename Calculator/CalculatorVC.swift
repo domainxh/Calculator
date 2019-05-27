@@ -101,16 +101,6 @@ class CalculatorVC: UIViewController {
         equationLabel.scrollRangeToVisible(range)
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if let destinationNC = segue.destination as? UINavigationController {
-            if let storageVC = destinationNC.viewControllers.first as? StorageVC {
-                if let titleName = sender as? String {
-                    storageVC.titleName = titleName
-                }
-            }
-        }
-    }
-
     private func clearLabel() {
         if equationLabel.text.isEmpty {
             solutionLabel.text = ""
@@ -262,7 +252,7 @@ class CalculatorVC: UIViewController {
     }
     
     private func presentStorageVC() {
-        let storageVC: UIViewController = StorageVC()
+        let storageVC = StorageVC(title: MediaType.photo.rawValue)
         let navController = UINavigationController(rootViewController: storageVC)
         present(navController, animated: true, completion: nil)
     }
