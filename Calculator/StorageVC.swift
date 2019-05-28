@@ -31,7 +31,6 @@ class StorageVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @IBOutlet weak var mainMenuTableView: UITableView!
     @IBOutlet weak var addMenuTableView: UITableView!
     @IBOutlet weak var addMenuView: UIView!
     @IBOutlet weak var addMenuHeight: NSLayoutConstraint!
@@ -47,7 +46,7 @@ class StorageVC: UIViewController {
     let cellGap = CGFloat(2)
     let sectionInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
     let screenSize = UIScreen.main.bounds
-    var navBarHeight: Int
+    var navBarHeight = 0
     let statusBarHeight = Int(UIApplication.shared.statusBarFrame.height)
     
     let storageData = StorageData()
@@ -63,9 +62,6 @@ class StorageVC: UIViewController {
         
 //        addMenuHeight.constant = cellHeight * CGFloat(addMenuItems.count)
 //        addMenuHeightConstraint.constant = cellHeight * CGFloat(addMenuItems.count * -1)
-        
-//        mainMenuTableView.delegate = self
-//        mainMenuTableView.dataSource = self
 //
 //        addMenuTableView.delegate = self
 //        addMenuTableView.dataSource = self
@@ -216,6 +212,15 @@ class StorageVC: UIViewController {
         return cv
     }()
     
+    private lazy var mainMenuTableView: UITableView = {
+        let tv = UITableView()
+        tv.delegate = self
+        tv.dataSource = self
+        tv.backgroundColor = .yellow
+        tv.register(MenuCell.self, forCellReuseIdentifier: MenuCell.reuseIdentifier)
+        return tv
+    }()
+    
     private lazy var blackView: UIView = {
         let view = UIView()
         view.backgroundColor = .red
@@ -282,6 +287,10 @@ class StorageVC: UIViewController {
     private func addLayoutConstraints() {
         let barHeight = navBarHeight + statusBarHeight
         view.addSubviews(collectionView, blackView, mainMenu)
+        mainMenu.addSubview(mainMenuTableView)
+        mainMenu.addConstraintsWithFormat("H:|[v0]|", views: mainMenuTableView)
+        mainMenu.addConstraintsWithFormat("V:|[v0]|", views: mainMenuTableView)
+        
         view.addConstraintsWithFormat("H:|[v0]|", views: collectionView)
         view.addConstraintsWithFormat("V:|-\(barHeight)-[v0]|", views: collectionView)
         view.addConstraintsWithFormat("H:|[v0]|", views: blackView)
@@ -308,7 +317,7 @@ extension StorageVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == mainMenuTableView {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "mainMenuCell") as! MenuCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: MenuCell.reuseIdentifier) as! MenuCell
             cell.configCell(mainMenuItems[indexPath.row])
             return cell
         } else {
