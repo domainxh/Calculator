@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.makeKeyAndVisible()
 //        window?.rootViewController = CalculatorVC()
-        let storageVC = StorageVC(title: MediaType.photo.rawValue)
+        let storageVC = StorageVC(title: MediaType.photo)
         let navController = UINavigationController(rootViewController: storageVC)
         window?.rootViewController = navController
         return true

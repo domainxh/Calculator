@@ -9,9 +9,10 @@
 import UIKit
 
 let statusBarHeight = UIApplication.shared.statusBarFrame.height
+let screenSize = UIScreen.main.bounds
 
 enum Display {
-    static let height = (UIScreen.main.bounds.height - statusBarHeight) * 0.33
+    static let height = (screenSize.height - statusBarHeight) * 0.33
     static let solutionLabelHeight = Display.height * 0.6
     static let equationLabelHeight = Display.height * 0.6
     static let minCharacters = "Minimum 4 characters"
@@ -42,4 +43,16 @@ enum Math {
     static let mul = "×"
     static let div = "÷"
     static let exp = "^"
+}
+
+enum MediaType {
+    static let photo = "Photo"
+    static let video = "Video"
+    static let camera = "Camera"
+    static let addPhoto = "Add Photo"
+}
+
+enum MainMenu {
+    static let cellHeight: CGFloat = 50
+    static let items = [MediaType.photo, MediaType.video]
 }

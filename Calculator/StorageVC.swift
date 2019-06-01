@@ -9,13 +9,6 @@
 import UIKit
 import AVFoundation
 
-enum MediaType: String {
-    case photo = "Photo"
-    case video = "Video"
-    case camera = "Camera"
-    case addPhoto = "Add Photo"
-}
-
 class StorageVC: UIViewController {
     
     convenience init() {
@@ -39,15 +32,11 @@ class StorageVC: UIViewController {
     var isMainMenuShowing = false
     var isAddMenuShowing = false
     let addMenuItems = [MediaType.camera, MediaType.addPhoto]
-    let mainMenuItems = [MediaType.photo, MediaType.video]
     
-    let cellHeight: CGFloat = 50
     let mediaPerRow: CGFloat = 2
     let cellGap = CGFloat(2)
     let sectionInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    let screenSize = UIScreen.main.bounds
     var navBarHeight = 0
-    let statusBarHeight = Int(UIApplication.shared.statusBarFrame.height)
     
     let storageData = StorageData()
 
@@ -285,7 +274,7 @@ class StorageVC: UIViewController {
     }
 
     private func addLayoutConstraints() {
-        let barHeight = navBarHeight + statusBarHeight
+        let barHeight = navBarHeight + Int(statusBarHeight)
         view.addSubviews(collectionView, blackView, mainMenu)
         mainMenu.addSubview(mainMenuTableView)
         mainMenu.addConstraintsWithFormat("H:|[v0]|", views: mainMenuTableView)
@@ -318,7 +307,7 @@ extension StorageVC: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == mainMenuTableView {
             let cell = tableView.dequeueReusableCell(withIdentifier: MenuCell.reuseIdentifier) as! MenuCell
-            cell.configCell(mainMenuItems[indexPath.row])
+            cell.configCell(MainMenu.items[indexPath.row])
             return cell
         } else {
             let cell = tableView.dequeueReusableCell(withIdentifier: "addMenuCell") as! MenuCell
@@ -329,7 +318,7 @@ extension StorageVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if tableView == mainMenuTableView {
-            return mainMenuItems.count
+            return MainMenu.items.count
         } else {
             return addMenuItems.count
         }
@@ -359,7 +348,7 @@ extension StorageVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return cellHeight
+        return MainMenu.cellHeight
     }
 }
 
@@ -375,9 +364,9 @@ extension StorageVC: UICollectionViewDelegate, UICollectionViewDataSource, UICol
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch title {
-        case MediaType.photo.rawValue:
+        case MediaType.photo:
             return storageData.photos.count
-        case MediaType.video.rawValue:
+        case MediaType.video:
             return storageData.videos.count
         default:
             return 0

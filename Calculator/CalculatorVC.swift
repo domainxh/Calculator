@@ -216,7 +216,7 @@ class CalculatorVC: UIViewController {
     }
     
     private func presentStorageVC() {
-        let storageVC = StorageVC(title: MediaType.photo.rawValue)
+        let storageVC = StorageVC(title: MediaType.photo)
         let navController = UINavigationController(rootViewController: storageVC)
         present(navController, animated: true, completion: nil)
     }

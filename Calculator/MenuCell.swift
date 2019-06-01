@@ -10,15 +10,15 @@ import UIKit
 
 class MenuCell: UITableViewCell {
     
-    func configCell(_ menuItems: MediaType) {
-        menuLabel.text = menuItems.rawValue
-        menuImage.image = UIImage(named: menuItems.rawValue)
+    func configCell(_ menuItems: String) {
+        menuLabel.text = menuItems
+        menuImage.image = UIImage(named: menuItems)
         setupView()
     }
     
     private var menuLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "AvenirNext-Regular", size: 25)
+        label.font = UIFont(name: "AvenirNext-Regular", size: 20)
         label.textAlignment = .center
         return label
     }()
@@ -32,8 +32,9 @@ class MenuCell: UITableViewCell {
     
     private func setupView() {
         addSubviews(menuLabel, menuImage)
-        addConstraintsWithFormat("H:|[v0]-[v1]|", views: menuImage, menuLabel)
-        addConstraintsWithFormat("V:|[v0]|", views: menuImage)
+        addConstraintsWithFormat("H:|-[v0]-[v1]", views: menuImage, menuLabel)
+        addConstraintsWithFormat("V:[v0(\(MainMenu.cellHeight * 0.6))]", views: menuImage)
+        menuImage.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         addConstraintsWithFormat("V:|[v0]|", views: menuLabel)
     }
 
