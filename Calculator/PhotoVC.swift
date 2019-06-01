@@ -25,6 +25,7 @@ class PhotoVC: UIViewController, UIScrollViewDelegate {
         navigationController?.navigationBar.tintColor = UIColor.white
         
         scrollView.delegate = self
+//        scrollView.contentInsetAdjustmentBehavior
         automaticallyAdjustsScrollViewInsets = false
         imageView.contentMode = .scaleAspectFit
         imageView.center = scrollView.center;
