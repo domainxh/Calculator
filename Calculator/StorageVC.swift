@@ -205,7 +205,7 @@ class StorageVC: UIViewController {
         let tv = UITableView()
         tv.delegate = self
         tv.dataSource = self
-        tv.backgroundColor = .yellow
+        tv.separatorStyle = .none
         tv.register(MenuCell.self, forCellReuseIdentifier: MenuCell.reuseIdentifier)
         return tv
     }()

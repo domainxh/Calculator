@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		214EB169229063CD00C589B2 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214EB168229063CD00C589B2 /* ButtonCell.swift */; };
 		21A9BE3B22A2C18900DB41D1 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A9BE3A22A2C18900DB41D1 /* Constant.swift */; };
+		21A9BE3D22A2CA2C00DB41D1 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A9BE3C22A2CA2C00DB41D1 /* UIFont+.swift */; };
 		21E4F931228F92130020C941 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E4F930228F92130020C941 /* UIView+.swift */; };
 		21E4F933228F94880020C941 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E4F932228F94880020C941 /* String+.swift */; };
 		F72065DF1E50A34600376F13 /* MediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72065DE1E50A34600376F13 /* MediaCell.swift */; };
@@ -35,6 +36,7 @@
 /* Begin PBXFileReference section */
 		214EB168229063CD00C589B2 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		21A9BE3A22A2C18900DB41D1 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		21A9BE3C22A2CA2C00DB41D1 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		21E4F930228F92130020C941 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		21E4F932228F94880020C941 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		F72065DE1E50A34600376F13 /* MediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaCell.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 			children = (
 				21E4F930228F92130020C941 /* UIView+.swift */,
 				21E4F932228F94880020C941 /* String+.swift */,
+				21A9BE3C22A2CA2C00DB41D1 /* UIFont+.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -266,6 +269,7 @@
 				21A9BE3B22A2C18900DB41D1 /* Constant.swift in Sources */,
 				F72387EE1E5A7FBE00E231C9 /* DetailedContactVC.swift in Sources */,
 				F721CDF21E5917C300DA0D3C /* SettingCell.swift in Sources */,
+				21A9BE3D22A2CA2C00DB41D1 /* UIFont+.swift in Sources */,
 				F7D856E21E4B89B400D6DE35 /* CalculatorVC.swift in Sources */,
 				F74361DF1E53C8BB007D41D1 /* PhotoVC.swift in Sources */,
 				F7D856E01E4B89B400D6DE35 /* AppDelegate.swift in Sources */,

@@ -321,7 +321,7 @@ class CalculatorVC: UIViewController {
         view.text = ""
         view.backgroundColor = .orange
         view.textAlignment = .left
-        view.font = UIFont(name: "AvenirNext-Regular", size: 25)
+        view.font = UIFont.equationLabel
         return view
     }()
 
@@ -330,16 +330,16 @@ class CalculatorVC: UIViewController {
         label.text = "0"
         label.backgroundColor = .red
         label.textAlignment = .right
-        label.font = UIFont(name: "AvenirNext-Regular", size: 50)
+        label.font = UIFont.solutionLabel
         return label
     }()
 
     private let messageLabel: UILabel = {
         let label = UILabel()
-        label.text = "Create a PIN for this device"
+        label.text = Display.createPin
         label.textAlignment = .center
         label.textColor = UIColor.darkGray
-        label.font = UIFont(name: "AvenirNext-Regular", size: 25)
+        label.font = UIFont.messageLabel
         label.isHidden = true
         return label
     }()

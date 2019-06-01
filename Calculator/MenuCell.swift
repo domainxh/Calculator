@@ -18,7 +18,7 @@ class MenuCell: UITableViewCell {
     
     private var menuLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "AvenirNext-Regular", size: 20)
+        label.font = UIFont.menuLabel
         label.textAlignment = .center
         return label
     }()

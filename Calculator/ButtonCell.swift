@@ -31,7 +31,7 @@ class ButtonCell: UICollectionViewCell {
     
     private let buttonLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: "AvenirNext-Regular", size: 25)
+        label.font = UIFont.buttonLabel
         label.textAlignment = .center
         return label
     }()

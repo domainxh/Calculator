@@ -20,6 +20,7 @@ enum Display {
     static let confirmPin = "Confirm your pin"
     static let pinSetup = "Select a pin and press the (-) button to continue.\n \n Once set up, you will use the (-) to unlock your secret vault"
     static let mismatch = "Mismatch. Reset password"
+    static let createPin = "Create a PIN for this device"
 }
 
 enum TouchPad {
