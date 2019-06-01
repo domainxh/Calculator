@@ -9,40 +9,7 @@
 import AVFoundation
 import UIKit
 
-let statusBarHeight = UIApplication.shared.statusBarFrame.height
-let displayViewHeight = (UIScreen.main.bounds.height - statusBarHeight) * 0.33
-let solutionLabelHeight = displayViewHeight * 0.6
-let equationLabelHeight = displayViewHeight * 0.4
-
-let collectionViewSize = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height - statusBarHeight - displayViewHeight)
-
-let cellPerRow: CGFloat = 4
-let cellPerColumn: CGFloat = 5
-let cellWidth = collectionViewSize.width / cellPerRow
-let cellHeight = collectionViewSize.height / cellPerColumn
-let cellSize = CGSize(width: cellWidth, height: cellHeight)
-
 class CalculatorVC: UIViewController {
-    
-    private enum Message: String {
-        case minCharacters = "Minimum 4 characters"
-        case maxCharacters = "Maximum 8 characters"
-        case confirmPin = "Confirm your pin"
-        case pinSetup = "Select a pin and press the (-) button to continue.\n \n Once set up, you will use the (-) to unlock your secret vault"
-        case mismatch = "Mismatch. Reset password"
-    }
-
-    private enum Math: String {
-        case ans = "ANS"
-        case negative = "-"
-        case minus = "−"
-        case s = "S"
-        case equal = "="
-        case plus = "+"
-        case mul = "×"
-        case div = "÷"
-        case exp = "^"
-    }
 
     private let buttons = [
         "DEL", "^", "(-)", "÷",
@@ -55,9 +22,7 @@ class CalculatorVC: UIViewController {
     private var finalSolution: Float = 0
     private var tempSolution: Float = 0
     private var tempPassword = ""
-
     private let defaults = UserDefaults.standard
-
     private let numbers = [".","0","1","2","3","4","5","6","7","8","9", "S"]
     private let numbersIncludeNegative = ["-",".","0","1","2","3","4","5","6","7","8","9", "S"] // first one is negative
     private let operators = ["=","+","−","×","÷","^"]
@@ -82,9 +47,8 @@ class CalculatorVC: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
         if !isPasswordSet() {
-            let ac = UIAlertController(title: "Instructions", message: Message.pinSetup.rawValue, preferredStyle: .alert)
+            let ac = UIAlertController(title: "Instructions", message: Display.pinSetup, preferredStyle: .alert)
             ac.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(ac, animated: true, completion:nil)
         }
@@ -130,7 +94,7 @@ class CalculatorVC: UIViewController {
         var listToBeNotIn = [String]()
         var listToBeIn = [String]()
 
-        equationLabel.text = equationLabel.text.replacingOccurrences(of: Math.ans.rawValue, with: String(finalSolution))
+        equationLabel.text = equationLabel.text.replacingOccurrences(of: Math.ans, with: String(finalSolution))
         equationLabel.text = equationLabel.text.replacingOccurrences(of: "e+", with: String("e"))
         equationLabel.text = equationLabel.text.replacingOccurrences(of: "--", with: String(""))
 
@@ -177,11 +141,11 @@ class CalculatorVC: UIViewController {
             }
 
             switch operation {
-                case Math.plus.rawValue: tempSolution = input1 + input2
-                case Math.minus.rawValue: tempSolution = input1 - input2
-                case Math.mul.rawValue: tempSolution = input1 * input2
-                case Math.div.rawValue: tempSolution = input1 / input2
-                case Math.exp.rawValue: tempSolution = pow(input1,input2)
+                case Math.plus: tempSolution = input1 + input2
+                case Math.minus: tempSolution = input1 - input2
+                case Math.mul: tempSolution = input1 * input2
+                case Math.div: tempSolution = input1 / input2
+                case Math.exp: tempSolution = pow(input1,input2)
                 default: tempSolution = 0
             }
 
@@ -190,7 +154,7 @@ class CalculatorVC: UIViewController {
         }
 
         finalSolution = Float(equationLabel.text[0 ..< lastIndexInEquation()])!
-        equationLabel.text = equationLabel.text.replacingOccurrences(of: String(finalSolution), with: Math.ans.rawValue)
+        equationLabel.text = equationLabel.text.replacingOccurrences(of: String(finalSolution), with: Math.ans)
         return finalSolution
     }
 
@@ -217,7 +181,7 @@ class CalculatorVC: UIViewController {
     }
 
     private func isEqualAtTheEnd() -> Bool {
-        return lastStringInEquation() == Math.equal.rawValue
+        return lastStringInEquation() == Math.equal
     }
 
     private func lastStringInEquation() -> String {
@@ -226,7 +190,7 @@ class CalculatorVC: UIViewController {
     }
 
     private func numberTapped(_ button: String) {
-        guard lastStringInEquation() != Math.s.rawValue else { return }
+        guard lastStringInEquation() != Math.s else { return }
         if !isPasswordSet() && button == "." { return }
         
         if !equationLabel.text.isEmpty && isEqualAtTheEnd() {
@@ -239,7 +203,7 @@ class CalculatorVC: UIViewController {
     private func delTapped(_ button: String) {
         guard !equationLabel.text.isEmpty else { return }
 
-        if lastStringInEquation() == Math.s.rawValue {
+        if lastStringInEquation() == Math.s {
             equationLabel.text.removeSubrange(equationLabel.text.index(equationLabel.text.endIndex, offsetBy: -3) ..< equationLabel.text.endIndex)
         } else {
             _ = equationLabel.text.popLast()
@@ -273,24 +237,24 @@ class CalculatorVC: UIViewController {
                 messageLabel.isHidden = true
                 presentStorageVC()
             } else {
-                messageLabel.text = Message.mismatch.rawValue
+                messageLabel.text = Display.mismatch
                 tempPassword = ""
                 equationLabel.text = ""
                 return
             }
         } else if !isPasswordSet() {
             if equationLabel.text.count < 4 {
-                messageLabel.text = Message.minCharacters.rawValue
+                messageLabel.text = Display.minCharacters
                 equationLabel.text = ""
                 return
             } else if equationLabel.text.count > 8 {
-                messageLabel.text = Message.maxCharacters.rawValue
+                messageLabel.text = Display.maxCharacters
                 equationLabel.text = ""
                 return
             } else {
                 tempPassword = equationLabel.text
                 equationLabel.text = ""
-                messageLabel.text = Message.confirmPin.rawValue
+                messageLabel.text = Display.confirmPin
                 return
             }
         }
@@ -298,12 +262,12 @@ class CalculatorVC: UIViewController {
         if !equationLabel.text.isEmpty {
             if isEqualAtTheEnd() {
                 clearLabel()
-                equationLabel.text += Math.negative.rawValue
+                equationLabel.text += Math.negative
             } else if !isInputAnOperator(input: lastStringInEquation(), listOfOperations: numbersIncludeNegative) {
-                equationLabel.text += Math.negative.rawValue
+                equationLabel.text += Math.negative
             }
         } else {
-            equationLabel.text += Math.negative.rawValue
+            equationLabel.text += Math.negative
         }
     }
     
@@ -312,12 +276,12 @@ class CalculatorVC: UIViewController {
         if !equationLabel.text.isEmpty {
             if isEqualAtTheEnd() {
                 clearLabel()
-                equationLabel.text += Math.ans.rawValue
+                equationLabel.text += Math.ans
             } else if !isInputAnOperator(input: lastStringInEquation(), listOfOperations: numbers) {
-                equationLabel.text += Math.ans.rawValue
+                equationLabel.text += Math.ans
             }
         } else {
-            equationLabel.text += Math.ans.rawValue
+            equationLabel.text += Math.ans
         }
     }
 
@@ -327,7 +291,7 @@ class CalculatorVC: UIViewController {
             if isInputAnOperator(input: lastStringInEquation(), listOfOperations: operatorsIncludeNegative) {
                 return
             } else {
-                equationLabel.text += Math.equal.rawValue
+                equationLabel.text += Math.equal
                 solutionLabel.text = formatOutput(convert: String(calculate()))
             }
         }
@@ -341,7 +305,7 @@ class CalculatorVC: UIViewController {
             }
             if isEqualAtTheEnd() {
                 clearLabel()
-                equationLabel.text += (Math.ans.rawValue + button)
+                equationLabel.text += (Math.ans + button)
             }
         }
     }
@@ -399,14 +363,14 @@ class CalculatorVC: UIViewController {
         view.addSubviews(displayView, collectionView)
         view.addConstraintsWithFormat("H:|[v0]|", views: displayView)
         view.addConstraintsWithFormat("H:|[v0]|", views: collectionView)
-        view.addConstraintsWithFormat("V:|-\(statusBarHeight)-[v0][v1(\(collectionViewSize.height))]|", views: displayView, collectionView)
+        view.addConstraintsWithFormat("V:|-\(statusBarHeight)-[v0][v1(\(TouchPad.height))]|", views: displayView, collectionView)
         
         displayView.addSubviews(equationLabel, solutionLabel, messageLabel)
         view.addConstraintsWithFormat("H:|-[v0]-|", views: equationLabel)
         view.addConstraintsWithFormat("H:|-[v0]-|", views: solutionLabel)
         view.addConstraintsWithFormat("H:|-[v0]-|", views: messageLabel)
-        view.addConstraintsWithFormat("V:|[v0(\(equationLabelHeight))][v1]|", views: equationLabel, solutionLabel)
-        view.addConstraintsWithFormat("V:|[v0(\(equationLabelHeight))][v1]|", views: equationLabel, messageLabel)
+        view.addConstraintsWithFormat("V:|[v0(\(Display.equationLabelHeight))][v1]|", views: equationLabel, solutionLabel)
+        view.addConstraintsWithFormat("V:|[v0(\(Display.solutionLabelHeight))][v1]|", views: equationLabel, messageLabel)
     }
 
 }
@@ -454,6 +418,6 @@ extension CalculatorVC: UICollectionViewDelegate, UICollectionViewDataSource, UI
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return cellSize
+        return TouchPad.cellSize
     }
 }
