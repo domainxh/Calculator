@@ -136,7 +136,6 @@
 				21E4F92F228F91F60020C941 /* Extensions */,
 				F721CDF31E59344600DA0D3C /* Reference */,
 				F7D856FE1E4CC0C500D6DE35 /* Resource */,
-				F7D856F91E4CC02D00D6DE35 /* Model */,
 				F7D856FA1E4CC03400D6DE35 /* View */,
 				F7D856FB1E4CC03800D6DE35 /* Controller */,
 				F7D856DF1E4B89B400D6DE35 /* AppDelegate.swift */,
@@ -146,13 +145,6 @@
 				F7D856EE1E4B89B400D6DE35 /* Info.plist */,
 			);
 			path = Calculator;
-			sourceTree = "<group>";
-		};
-		F7D856F91E4CC02D00D6DE35 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Model;
 			sourceTree = "<group>";
 		};
 		F7D856FA1E4CC03400D6DE35 /* View */ = {

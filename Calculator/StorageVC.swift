@@ -29,16 +29,16 @@ class StorageVC: UIViewController {
     @IBOutlet weak var addMenuHeight: NSLayoutConstraint!
     @IBOutlet weak var addMenuHeightConstraint: NSLayoutConstraint!
     
-    var isMainMenuShowing = false
-    var isAddMenuShowing = false
-    let addMenuItems = [MediaType.camera, MediaType.addPhoto]
+    private var isMainMenuShowing = false
+    private var isAddMenuShowing = false
+    private let addMenuItems = [MediaType.camera, MediaType.addPhoto]
     
-    let mediaPerRow: CGFloat = 2
-    let cellGap = CGFloat(2)
-    let sectionInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-    var navBarHeight = 0
+    private let mediaPerRow: CGFloat = 2
+    private let cellGap = CGFloat(2)
+    private let sectionInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+    private var navBarHeight = 0
     
-    let storageData = StorageData()
+    private let storageData = StorageData()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -325,8 +325,8 @@ extension StorageVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        hideMainMenu()
-//        hideBlackView()
+        hideMainMenu()
+        hideBlackView()
 //
 //        let currentCell = tableView.cellForRow(at: indexPath) as! MenuCell
 //        let cellText = currentCell.menuLabel.text
