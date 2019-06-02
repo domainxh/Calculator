@@ -24,14 +24,8 @@ class StorageVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @IBOutlet weak var addMenuTableView: UITableView!
-    @IBOutlet weak var addMenuView: UIView!
-    @IBOutlet weak var addMenuHeight: NSLayoutConstraint!
-    @IBOutlet weak var addMenuHeightConstraint: NSLayoutConstraint!
-    
     private var isMainMenuShowing = false
     private var isAddMenuShowing = false
-    private let addMenuItems = [MediaType.camera, MediaType.addPhoto]
     
     private let mediaPerRow: CGFloat = 2
     private let cellGap = CGFloat(2)
@@ -48,27 +42,21 @@ class StorageVC: UIViewController {
         setNeedsStatusBarAppearanceUpdate()
         addNavBarIcons()
         addLayoutConstraints()
-        
-//        addMenuHeight.constant = cellHeight * CGFloat(addMenuItems.count)
-//        addMenuHeightConstraint.constant = cellHeight * CGFloat(addMenuItems.count * -1)
+    
+//        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeGesture))
+//        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
+//        view.addGestureRecognizer(swipeRight)
 //
-//        addMenuTableView.delegate = self
-//        addMenuTableView.dataSource = self
-
-        let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeGesture))
-        swipeRight.direction = UISwipeGestureRecognizer.Direction.right
-        view.addGestureRecognizer(swipeRight)
-        
-        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeGesture))
-        swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
-        view.addGestureRecognizer(swipeLeft)
-        
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeGesture))
-        swipeUp.direction = UISwipeGestureRecognizer.Direction.up
-        view.addGestureRecognizer(swipeUp)
+//        let swipeLeft = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeGesture))
+//        swipeLeft.direction = UISwipeGestureRecognizer.Direction.left
+//        view.addGestureRecognizer(swipeLeft)
+//
+//        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeGesture))
+//        swipeUp.direction = UISwipeGestureRecognizer.Direction.up
+//        view.addGestureRecognizer(swipeUp)
     }
     
-    @objc func handleSwipeGesture(gesture: UIGestureRecognizer) {
+//    @objc func handleSwipeGesture(gesture: UIGestureRecognizer) {
 //        guard let swipeGesture = gesture as? UISwipeGestureRecognizer else { return }
 //        switch swipeGesture.direction {
 //        case UISwipeGestureRecognizer.Direction.right:
@@ -82,107 +70,6 @@ class StorageVC: UIViewController {
 //            hideBlackView()
 //        default:
 //            break
-//        }
-    }
-    
-//    @IBAction func addMenuTapped(_ sender: Any) {
-//        if isAddMenuShowing {
-//            hideAddMenu()
-//            hideBlackView()
-//        } else if !isAddMenuShowing && isMainMenuShowing {
-//            hideMainMenu()
-//            showAddMenu()
-//        } else {
-//            showAddMenu()
-//            showBlackView()
-//        }
-//    }
-    
-//    @IBAction func mainMenuTapped(_ sender: Any) {
-//        if isMainMenuShowing {
-//            hideMainMenu()
-//            hideBlackView()
-//        } else if !isMainMenuShowing && isAddMenuShowing{
-//            showMainMenu()
-//            hideAddMenu()
-//        } else {
-//            showMainMenu()
-//            showBlackView()
-//        }
-//    }
-    
-//    private func showBlackView() {
-//        blackView.isHidden = false
-//        blackView.backgroundColor = UIColor(white: 0, alpha: 0.5)
-//        blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideBlackView)))
-//        blackView.alpha = 0
-//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-//            self.blackView.alpha = 1
-//        })
-//    }
-//
-//    @objc func hideBlackView() {
-//        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-//            self.blackView.alpha = 0
-//            self.hideAddMenu()
-//            self.hideMainMenu()
-//        }, completion: { finish in
-//            self.blackView.isHidden = true
-//        })
-//    }
-    
-//    private func showAddMenu() {
-//        if !isAddMenuShowing {
-//            if let window = UIApplication.shared.keyWindow {
-//                let x = collectionView.frame.width - addMenuView.frame.width
-//                let yFinal = window.frame.height - collectionView.frame.height
-//                let yInit = yFinal - addMenuView.frame.height
-//                addMenuView.frame = CGRect(x: x, y: yInit, width: addMenuView.frame.width, height: addMenuView.frame.height)
-//                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-//                    self.addMenuView.frame = CGRect(x: x, y: yFinal, width: self.addMenuView.frame.width, height: self.addMenuView.frame.height)
-//                })
-//                isAddMenuShowing = !isAddMenuShowing
-//            }
-//        }
-//    }
-//
-//    private func hideAddMenu() {
-//        if isAddMenuShowing {
-//            if let window = UIApplication.shared.keyWindow {
-//                let x = collectionView.frame.width - addMenuView.frame.width
-//                let yInit = window.frame.height - collectionView.frame.height - addMenuView.frame.height
-//                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-//                    self.addMenuView.frame = CGRect(x: x, y: yInit, width: self.addMenuView.frame.width, height: self.addMenuView.frame.height)
-//                })
-//                isAddMenuShowing = !isAddMenuShowing
-//            }
-//        }
-//    }
-    
-//    private func showMainMenu() {
-//        if !isMainMenuShowing {
-//            if let window = UIApplication.shared.keyWindow {
-//                let y = window.frame.height - collectionView.frame.height
-//                let xInit = mainMenuView.frame.width * -1
-//                mainMenuView.frame = CGRect(x: xInit, y: y, width: mainMenuView.frame.width, height: mainMenuView.frame.height)
-//                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-//                    self.mainMenuView.frame = CGRect(x: 0, y: y, width: self.mainMenuView.frame.width, height: self.mainMenuView.frame.height)
-//                })
-//                isMainMenuShowing = !isMainMenuShowing
-//            }
-//        }
-//    }
-//
-//    private func hideMainMenu() {
-//        if isMainMenuShowing {
-//            if let window = UIApplication.shared.keyWindow {
-//                let y = window.frame.height - collectionView.frame.height
-//                let xInit = mainMenuView.frame.width * -1
-//                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
-//                    self.mainMenuView.frame = CGRect(x: xInit, y: y, width: self.mainMenuView.frame.width, height: self.mainMenuView.frame.height)
-//                })
-//                isMainMenuShowing = !isMainMenuShowing
-//            }
 //        }
 //    }
     
@@ -206,7 +93,18 @@ class StorageVC: UIViewController {
         tv.delegate = self
         tv.dataSource = self
         tv.separatorStyle = .none
-        tv.register(MenuCell.self, forCellReuseIdentifier: MenuCell.reuseIdentifier)
+        tv.isScrollEnabled = false
+        tv.register(MenuCell.self, forCellReuseIdentifier: MenuCell.reuseIdentifierMainMenu)
+        return tv
+    }()
+    
+    private lazy var addMenuTableView: UITableView = {
+        let tv = UITableView()
+        tv.delegate = self
+        tv.dataSource = self
+        tv.separatorStyle = .none
+        tv.isScrollEnabled = false
+        tv.register(MenuCell.self, forCellReuseIdentifier: MenuCell.reuseIdentifierAddMenu)
         return tv
     }()
     
@@ -219,14 +117,18 @@ class StorageVC: UIViewController {
     
     private lazy var mainMenu: UIView = {
         let view = UIView()
-        view.backgroundColor = .green
+        return view
+    }()
+    
+    private lazy var addMenu: UIView = {
+        let view = UIView()
         return view
     }()
     
     @objc private func hideBlackView() {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
             self.blackView.alpha = 0
-//            self.hideAddMenu()
+            self.hideAddMenu()
             self.hideMainMenu()
         }, completion: { finish in
             self.blackView.isHidden = true
@@ -238,13 +140,13 @@ class StorageVC: UIViewController {
         blackView.backgroundColor = UIColor(white: 0, alpha: 0.5)
                 blackView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(hideBlackView)))
         blackView.alpha = 0
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: {
             self.blackView.alpha = 1
         })
     }
     
     private func hideMainMenu() {
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.9, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: { [weak self] in
             guard let self = self else { return }
             self.mainMenu.transform = CGAffineTransform(translationX: self.mainMenu.frame.width * -1, y: 0)
             self.isMainMenuShowing = false
@@ -252,11 +154,26 @@ class StorageVC: UIViewController {
     }
     
     private func showMainMenu() {
-        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: { [weak self] in
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: { [weak self] in
             guard let self = self else { return }
             self.mainMenu.transform = CGAffineTransform(translationX: self.mainMenu.frame.width, y: 0)
             self.isMainMenuShowing = true
-            self.showBlackView()
+        })
+    }
+    
+    private func hideAddMenu() {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseOut, animations: { [weak self] in
+            guard let self = self else { return }
+            self.addMenu.transform = CGAffineTransform(translationX: 0, y: 0)
+            self.isAddMenuShowing = false
+        })
+    }
+
+    private func showAddMenu() {
+        UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn, animations: { [weak self] in
+            guard let self = self else { return }
+            self.addMenu.transform = CGAffineTransform(translationX: 0, y: AddMenu.height)
+            self.isAddMenuShowing = true
         })
     }
     
@@ -264,28 +181,51 @@ class StorageVC: UIViewController {
         if isMainMenuShowing {
             hideMainMenu()
             hideBlackView()
+        } else if !isMainMenuShowing && isAddMenuShowing {
+            showMainMenu()
+            hideAddMenu()
         } else {
             showMainMenu()
+            showBlackView()
         }
     }
 
     @objc private func addButtonPressed() {
-        print("add button pressed")
+        if isAddMenuShowing {
+            hideAddMenu()
+            hideBlackView()
+        } else if !isAddMenuShowing && isMainMenuShowing {
+            hideMainMenu()
+            showAddMenu()
+        } else {
+            showAddMenu()
+            showBlackView()
+        }
     }
 
     private func addLayoutConstraints() {
         let barHeight = navBarHeight + Int(statusBarHeight)
-        view.addSubviews(collectionView, blackView, mainMenu)
+        view.addSubviews(collectionView, blackView, mainMenu, addMenu)
+        
         mainMenu.addSubview(mainMenuTableView)
         mainMenu.addConstraintsWithFormat("H:|[v0]|", views: mainMenuTableView)
         mainMenu.addConstraintsWithFormat("V:|[v0]|", views: mainMenuTableView)
         
+        addMenu.addSubview(addMenuTableView)
+        addMenu.addConstraintsWithFormat("H:|[v0]|", views: addMenuTableView)
+        addMenu.addConstraintsWithFormat("V:|[v0]|", views: addMenuTableView)
+        
         view.addConstraintsWithFormat("H:|[v0]|", views: collectionView)
         view.addConstraintsWithFormat("V:|-\(barHeight)-[v0]|", views: collectionView)
+        
         view.addConstraintsWithFormat("H:|[v0]|", views: blackView)
         view.addConstraintsWithFormat("V:|-\(barHeight)-[v0]|", views: blackView)
-        view.addConstraintsWithFormat("H:[v0(\(screenSize.width * 0.4))]-\(screenSize.width)-|", views: mainMenu)
+        
+        view.addConstraintsWithFormat("H:[v0(\(MainMenu.cellWidth))]-\(screenSize.width)-|", views: mainMenu)
         view.addConstraintsWithFormat("V:|-\(barHeight)-[v0]|", views: mainMenu)
+
+        view.addConstraintsWithFormat("H:[v0(\(AddMenu.cellWidth))]|", views: addMenu)
+        view.addConstraintsWithFormat("V:[v0(\(AddMenu.height))]-\(screenSize.height - CGFloat(barHeight))-|", views: addMenu)
     }
 
     private func addNavBarIcons() {
@@ -306,12 +246,12 @@ extension StorageVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if tableView == mainMenuTableView {
-            let cell = tableView.dequeueReusableCell(withIdentifier: MenuCell.reuseIdentifier) as! MenuCell
+            let cell = tableView.dequeueReusableCell(withIdentifier: MenuCell.reuseIdentifierMainMenu) as! MenuCell
             cell.configCell(MainMenu.items[indexPath.row])
             return cell
         } else {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "addMenuCell") as! MenuCell
-            cell.configCell(addMenuItems[indexPath.row])
+            let cell = tableView.dequeueReusableCell(withIdentifier: MenuCell.reuseIdentifierAddMenu) as! MenuCell
+            cell.configCell(AddMenu.items[indexPath.row])
             return cell
         }
     }
@@ -320,31 +260,36 @@ extension StorageVC: UITableViewDelegate, UITableViewDataSource {
         if tableView == mainMenuTableView {
             return MainMenu.items.count
         } else {
-            return addMenuItems.count
+            return AddMenu.items.count
         }
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         hideMainMenu()
         hideBlackView()
-//
-//        let currentCell = tableView.cellForRow(at: indexPath) as! MenuCell
-//        let cellText = currentCell.menuLabel.text
-//
-//        if cellText == title {
-//            hideMainMenu()
-//            return
-//        } else if cellText == MediaType.video.rawValue {
-//            title = MediaType.video.rawValue
-//        } else if cellText == MediaType.photo.rawValue {
-//            title = MediaType.photo.rawValue
-//        } else if cellText == "Contacts" {
-//            performSegue(withIdentifier: "contactVC", sender: nil)
-//        }
-//
-//        DispatchQueue.main.async(execute: {
-//            self.collectionView.reloadData()
-//        })
+        
+        guard let cell = tableView.cellForRow(at: indexPath) as? MenuCell else { return }
+        switch cell.menuLabel.text {
+        case title:
+            hideMainMenu()
+            return
+        case MediaType.video:
+            title = MediaType.video
+        case MediaType.photo:
+            title = MediaType.photo
+        case MediaType.contact:
+            performSegue(withIdentifier: "contactVC", sender: nil)
+        case MediaType.addPhoto:
+            hideAddMenu()
+        case MediaType.camera:
+            hideAddMenu()
+        default:
+            return
+        }
+
+        DispatchQueue.main.async { [weak self] in
+            self?.collectionView.reloadData()
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

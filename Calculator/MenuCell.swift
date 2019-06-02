@@ -16,7 +16,7 @@ class MenuCell: UITableViewCell {
         setupView()
     }
     
-    private var menuLabel: UILabel = {
+    var menuLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.menuLabel
         label.textAlignment = .center
@@ -41,7 +41,11 @@ class MenuCell: UITableViewCell {
 }
 
 extension MenuCell {
-    static var reuseIdentifier: String {
-        return String(describing: MenuCell.self)
+    static var reuseIdentifierAddMenu: String {
+        return "Add" + String(describing: MenuCell.self)
+    }
+
+    static var reuseIdentifierMainMenu: String {
+        return "Main" + String(describing: MenuCell.self)
     }
 }

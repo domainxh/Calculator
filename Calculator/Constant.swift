@@ -51,9 +51,18 @@ enum MediaType {
     static let video = "Video"
     static let camera = "Camera"
     static let addPhoto = "Add Photo"
+    static let contact = "Contact"
 }
 
 enum MainMenu {
     static let cellHeight: CGFloat = 50
+    static let cellWidth: CGFloat = screenSize.width * 0.4
     static let items = [MediaType.photo, MediaType.video]
+}
+
+enum AddMenu {
+    static let cellHeight: CGFloat = 50
+    static let cellWidth: CGFloat = screenSize.width * 0.5
+    static let height: CGFloat = CGFloat(AddMenu.items.count) * AddMenu.cellHeight
+    static let items = [MediaType.camera, MediaType.addPhoto]
 }
