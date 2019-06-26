@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		214EB169229063CD00C589B2 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 214EB168229063CD00C589B2 /* ButtonCell.swift */; };
+		21A9BE3B22A2C18900DB41D1 /* Constant.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A9BE3A22A2C18900DB41D1 /* Constant.swift */; };
+		21A9BE3D22A2CA2C00DB41D1 /* UIFont+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A9BE3C22A2CA2C00DB41D1 /* UIFont+.swift */; };
 		21E4F931228F92130020C941 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E4F930228F92130020C941 /* UIView+.swift */; };
 		21E4F933228F94880020C941 /* String+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21E4F932228F94880020C941 /* String+.swift */; };
 		F72065DF1E50A34600376F13 /* MediaCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F72065DE1E50A34600376F13 /* MediaCell.swift */; };
@@ -31,6 +34,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		214EB168229063CD00C589B2 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
+		21A9BE3A22A2C18900DB41D1 /* Constant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constant.swift; sourceTree = "<group>"; };
+		21A9BE3C22A2CA2C00DB41D1 /* UIFont+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+.swift"; sourceTree = "<group>"; };
 		21E4F930228F92130020C941 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		21E4F932228F94880020C941 /* String+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+.swift"; sourceTree = "<group>"; };
 		F72065DE1E50A34600376F13 /* MediaCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MediaCell.swift; sourceTree = "<group>"; };
@@ -71,8 +77,19 @@
 			isa = PBXGroup;
 			children = (
 				F7D856E11E4B89B400D6DE35 /* CalculatorVC.swift */,
+				214EB168229063CD00C589B2 /* ButtonCell.swift */,
 			);
 			name = Calculator;
+			sourceTree = "<group>";
+		};
+		214EB1732291952300C589B2 /* Storage */ = {
+			isa = PBXGroup;
+			children = (
+				F7D857031E4D653B00D6DE35 /* StorageVC.swift */,
+				F72065DE1E50A34600376F13 /* MediaCell.swift */,
+				F758F23E1E5786060059030C /* MenuCell.swift */,
+			);
+			name = Storage;
 			sourceTree = "<group>";
 		};
 		21E4F92F228F91F60020C941 /* Extensions */ = {
@@ -80,6 +97,7 @@
 			children = (
 				21E4F930228F92130020C941 /* UIView+.swift */,
 				21E4F932228F94880020C941 /* String+.swift */,
+				21A9BE3C22A2CA2C00DB41D1 /* UIFont+.swift */,
 			);
 			name = Extensions;
 			sourceTree = "<group>";
@@ -113,11 +131,11 @@
 		F7D856DE1E4B89B400D6DE35 /* Calculator */ = {
 			isa = PBXGroup;
 			children = (
+				214EB1732291952300C589B2 /* Storage */,
 				214EB16722904E8700C589B2 /* Calculator */,
 				21E4F92F228F91F60020C941 /* Extensions */,
 				F721CDF31E59344600DA0D3C /* Reference */,
 				F7D856FE1E4CC0C500D6DE35 /* Resource */,
-				F7D856F91E4CC02D00D6DE35 /* Model */,
 				F7D856FA1E4CC03400D6DE35 /* View */,
 				F7D856FB1E4CC03800D6DE35 /* Controller */,
 				F7D856DF1E4B89B400D6DE35 /* AppDelegate.swift */,
@@ -129,18 +147,9 @@
 			path = Calculator;
 			sourceTree = "<group>";
 		};
-		F7D856F91E4CC02D00D6DE35 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Model;
-			sourceTree = "<group>";
-		};
 		F7D856FA1E4CC03400D6DE35 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				F758F23E1E5786060059030C /* MenuCell.swift */,
-				F72065DE1E50A34600376F13 /* MediaCell.swift */,
 				F72387EB1E5A7ED300E231C9 /* ContactCell.swift */,
 			);
 			name = View;
@@ -149,7 +158,6 @@
 		F7D856FB1E4CC03800D6DE35 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				F7D857031E4D653B00D6DE35 /* StorageVC.swift */,
 				F74361E01E53FF90007D41D1 /* ManagePageVC.swift */,
 				F74361DE1E53C8BB007D41D1 /* PhotoVC.swift */,
 				F7C1896C1E55C3EF00F74743 /* VideoVC.swift */,
@@ -162,6 +170,7 @@
 		F7D856FE1E4CC0C500D6DE35 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				21A9BE3A22A2C18900DB41D1 /* Constant.swift */,
 				F7C1896A1E55C25E00F74743 /* TodoList.swift */,
 				F758F2401E5792820059030C /* StorageData.swift */,
 			);
@@ -195,20 +204,20 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 1010;
+				LastUpgradeCheck = 1020;
 				ORGANIZATIONNAME = "Xiaoheng Pan";
 				TargetAttributes = {
 					F7D856DB1E4B89B400D6DE35 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 45E7KT68K8;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 					};
 				};
 			};
 			buildConfigurationList = F7D856D71E4B89B400D6DE35 /* Build configuration list for PBXProject "Calculator" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -242,14 +251,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				214EB169229063CD00C589B2 /* ButtonCell.swift in Sources */,
 				F7C1896D1E55C3EF00F74743 /* VideoVC.swift in Sources */,
 				F72387EC1E5A7ED300E231C9 /* ContactCell.swift in Sources */,
 				F7D857041E4D653B00D6DE35 /* StorageVC.swift in Sources */,
 				F721CDF51E59357600DA0D3C /* SettingBlackView.swift in Sources */,
 				F7C1896B1E55C25E00F74743 /* TodoList.swift in Sources */,
 				21E4F933228F94880020C941 /* String+.swift in Sources */,
+				21A9BE3B22A2C18900DB41D1 /* Constant.swift in Sources */,
 				F72387EE1E5A7FBE00E231C9 /* DetailedContactVC.swift in Sources */,
 				F721CDF21E5917C300DA0D3C /* SettingCell.swift in Sources */,
+				21A9BE3D22A2CA2C00DB41D1 /* UIFont+.swift in Sources */,
 				F7D856E21E4B89B400D6DE35 /* CalculatorVC.swift in Sources */,
 				F74361DF1E53C8BB007D41D1 /* PhotoVC.swift in Sources */,
 				F7D856E01E4B89B400D6DE35 /* AppDelegate.swift in Sources */,
@@ -289,6 +301,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -346,6 +359,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -405,7 +419,7 @@
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -421,7 +435,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_INSTALL_OBJC_HEADER = NO;
 				SWIFT_OBJC_INTERFACE_HEADER_NAME = "";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};
